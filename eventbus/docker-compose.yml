@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  eventbus_redis:
+    image: redis:latest
+    container_name: eventbus_redis
+    restart: on-failure
+    ports:
+      - "6378:6379"
