@@ -16,7 +16,7 @@ var ConsumerController = exports.ConsumerController = /** @class */ (function ()
     function ConsumerController() {
     }
     ConsumerController.prototype.serveEvent = function (request, response) {
-        console.log(1111, request.body);
+        this.consumerService.handleServeEvent(request.body);
     };
     __decorate([
         (0, typedi_1.Inject)(),

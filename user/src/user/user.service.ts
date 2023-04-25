@@ -1,10 +1,14 @@
 import { error } from "../helper/error-creator.helper";
+import { createUserOrder } from "./decorators/create-user-order.decorator";
 import { CreateUserDTO } from "./dtos";
 import UserModel from "./user.model";
 import { Service } from "typedi";
 
 @Service()
 export class UserService {
+
+
+  @createUserOrder
   async create(data: CreateUserDTO) {
     const user = await this.checkEmailExist(data.email);
 

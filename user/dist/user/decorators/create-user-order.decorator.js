@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,62 +39,37 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
-var error_creator_helper_1 = require("../helper/error-creator.helper");
-var create_user_order_decorator_1 = require("./decorators/create-user-order.decorator");
-var dtos_1 = require("./dtos");
-var user_model_1 = __importDefault(require("./user.model"));
-var typedi_1 = require("typedi");
-var UserService = exports.UserService = /** @class */ (function () {
-    function UserService() {
-    }
-    UserService.prototype.create = function (data) {
+exports.createUserOrder = void 0;
+var axios_1 = __importDefault(require("axios"));
+function createUserOrder(target, propertyName, descriptor) {
+    var originalMethod = descriptor.value;
+    descriptor.value = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
         return __awaiter(this, void 0, void 0, function () {
-            var user, newUserPayload;
+            var result, payload;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.checkEmailExist(data.email)];
+                    case 0: return [4 /*yield*/, originalMethod.apply(this, args)];
                     case 1:
-                        user = _a.sent();
-                        if (user) {
-                            throw new Error((0, error_creator_helper_1.error)("email already taken", 400));
-                        }
-                        newUserPayload = {
-                            credit: data.credit,
-                            username: data.username,
-                            email: data.email,
+                        result = _a.sent();
+                        payload = {
+                            event: "create_user",
+                            payload: {
+                                userId: result._id,
+                                credit: result.credit,
+                            },
                         };
-                        return [2 /*return*/, new user_model_1.default(newUserPayload).save()];
+                        return [4 /*yield*/, axios_1.default.post("http://localhost:7000/publish", payload)];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, result];
                 }
             });
         });
     };
-    UserService.prototype.checkEmailExist = function (email) {
-        return __awaiter(this, void 0, void 0, function () {
-            var user;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, user_model_1.default.exists({
-                            email: email,
-                        }).lean()];
-                    case 1:
-                        user = _a.sent();
-                        return [2 /*return*/, !!user];
-                }
-            });
-        });
-    };
-    UserService.prototype.findAll = function () {
-        return user_model_1.default.find();
-    };
-    __decorate([
-        create_user_order_decorator_1.createUserOrder,
-        __metadata("design:type", Function),
-        __metadata("design:paramtypes", [dtos_1.CreateUserDTO]),
-        __metadata("design:returntype", Promise)
-    ], UserService.prototype, "create", null);
-    UserService = __decorate([
-        (0, typedi_1.Service)()
-    ], UserService);
-    return UserService;
-}());
+    return descriptor;
+}
+exports.createUserOrder = createUserOrder;

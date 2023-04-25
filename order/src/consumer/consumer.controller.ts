@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Inject, Service } from "typedi";
 import { ConsumerService } from "./consumer.service";
+import { BaseEventModel } from "../models/base-event.model";
 
 @Service()
 export class ConsumerController {
@@ -8,6 +9,6 @@ export class ConsumerController {
   private consumerService: ConsumerService;
 
   serveEvent(request: Request, response: Response) {
-    console.log(1111, request.body);
+    this.consumerService.handleServeEvent(request.body as BaseEventModel);
   }
 }
