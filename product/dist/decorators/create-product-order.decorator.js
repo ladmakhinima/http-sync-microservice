@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,37 +35,44 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConsumerService = void 0;
-var typedi_1 = require("typedi");
-var user_service_1 = require("../user/user.service");
-var product_service_1 = require("../product/product.service");
-var ConsumerService = exports.ConsumerService = /** @class */ (function () {
-    function ConsumerService() {
-    }
-    ConsumerService.prototype.handleServeEvent = function (data) {
+exports.createProductOrder = void 0;
+var axios_1 = __importDefault(require("axios"));
+function createProductOrder(target, propertyName, descriptor) {
+    var originalMethod = descriptor.value;
+    descriptor.value = function () {
+        var args = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            args[_i] = arguments[_i];
+        }
         return __awaiter(this, void 0, void 0, function () {
+            var result, payload;
             return __generator(this, function (_a) {
-                if (data.event === "create_user") {
-                    return [2 /*return*/, this.userService.create(data.payload)];
+                switch (_a.label) {
+                    case 0:
+                        console.log("ho");
+                        return [4 /*yield*/, originalMethod.apply(this, args)];
+                    case 1:
+                        result = _a.sent();
+                        payload = {
+                            event: "create_product",
+                            payload: {
+                                productId: result._id,
+                                productQuantity: result.quantity,
+                                productPrice: result.price,
+                            },
+                        };
+                        return [4 /*yield*/, axios_1.default.post("http://localhost:7000/publish", payload)];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/, result];
                 }
-                else if (data.event === "create_product") {
-                    return [2 /*return*/, this.productService.create(data.payload)];
-                }
-                return [2 /*return*/];
             });
         });
     };
-    __decorate([
-        (0, typedi_1.Inject)(),
-        __metadata("design:type", user_service_1.UserService)
-    ], ConsumerService.prototype, "userService", void 0);
-    __decorate([
-        (0, typedi_1.Inject)(),
-        __metadata("design:type", product_service_1.ProductService)
-    ], ConsumerService.prototype, "productService", void 0);
-    ConsumerService = __decorate([
-        (0, typedi_1.Service)()
-    ], ConsumerService);
-    return ConsumerService;
-}());
+    return descriptor;
+}
+exports.createProductOrder = createProductOrder;

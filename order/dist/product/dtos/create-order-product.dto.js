@@ -9,25 +9,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SubmitOrderDTO = void 0;
+exports.CreateOrderProductDTO = void 0;
 var class_validator_1 = require("class-validator");
-var SubmitOrderDTO = exports.SubmitOrderDTO = /** @class */ (function () {
-    function SubmitOrderDTO() {
+var CreateOrderProductDTO = exports.CreateOrderProductDTO = /** @class */ (function () {
+    function CreateOrderProductDTO() {
     }
     __decorate([
         (0, class_validator_1.IsNotEmpty)(),
         (0, class_validator_1.IsMongoId)(),
         __metadata("design:type", String)
-    ], SubmitOrderDTO.prototype, "userId", void 0);
-    __decorate([
-        (0, class_validator_1.IsNotEmpty)(),
-        (0, class_validator_1.IsMongoId)(),
-        __metadata("design:type", String)
-    ], SubmitOrderDTO.prototype, "productId", void 0);
+    ], CreateOrderProductDTO.prototype, "productId", void 0);
     __decorate([
         (0, class_validator_1.IsNotEmpty)(),
         (0, class_validator_1.IsNumber)(),
         __metadata("design:type", Number)
-    ], SubmitOrderDTO.prototype, "quantity", void 0);
-    return SubmitOrderDTO;
+    ], CreateOrderProductDTO.prototype, "productQuantity", void 0);
+    __decorate([
+        (0, class_validator_1.IsNotEmpty)(),
+        (0, class_validator_1.IsNumber)(),
+        __metadata("design:type", Number)
+    ], CreateOrderProductDTO.prototype, "productPrice", void 0);
+    return CreateOrderProductDTO;
 }());

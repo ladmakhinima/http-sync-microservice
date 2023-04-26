@@ -8,7 +8,14 @@ export class UserService {
     return new UserModel({ credit: data.credit, userId: data.userId }).save();
   }
 
-  findById(id: string) {
-    return UserModel.findById(id);
+  findById(userId: string) {
+    return UserModel.findOne({ userId });
+  }
+
+  updateCredit(userId: string, newCreditAmout: number) {
+    return UserModel.updateOne(
+      { userId },
+      { $set: { credit: newCreditAmout } }
+    );
   }
 }

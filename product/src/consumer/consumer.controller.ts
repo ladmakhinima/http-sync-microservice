@@ -8,6 +8,6 @@ export class ConsumerController {
   private consumerService: ConsumerService;
 
   serveEvent(request: Request, response: Response) {
-    console.log(1111, request.body);
+    return this.consumerService.handleServerEvent(request.body);
   }
 }

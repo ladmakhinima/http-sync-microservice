@@ -9,23 +9,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserService = void 0;
+exports.ProductService = void 0;
 var typedi_1 = require("typedi");
-var user_model_1 = __importDefault(require("./user.model"));
-var UserService = exports.UserService = /** @class */ (function () {
-    function UserService() {
+var product_model_1 = __importDefault(require("./product.model"));
+var ProductService = exports.ProductService = /** @class */ (function () {
+    function ProductService() {
     }
-    UserService.prototype.create = function (data) {
-        return new user_model_1.default({ credit: data.credit, userId: data.userId }).save();
+    ProductService.prototype.create = function (data) {
+        return new product_model_1.default({
+            productId: data.productId,
+            productPrice: data.productPrice,
+            productQuantity: data.productQuantity,
+        }).save();
     };
-    UserService.prototype.findById = function (id) {
-        return user_model_1.default.findById(id);
+    ProductService.prototype.findById = function (id) {
+        return product_model_1.default.findById(id);
     };
-    UserService.prototype.updateCredit = function (_id, newCreditAmout) {
-        return user_model_1.default.updateOne({ _id: _id }, { $set: { credit: newCreditAmout } });
+    ProductService.prototype.updateQuantity = function (_id, productQuantity) {
+        return product_model_1.default.updateOne({ _id: _id }, { $set: { productQuantity: productQuantity } });
     };
-    UserService = __decorate([
+    ProductService = __decorate([
         (0, typedi_1.Service)()
-    ], UserService);
-    return UserService;
+    ], ProductService);
+    return ProductService;
 }());

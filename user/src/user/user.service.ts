@@ -6,8 +6,6 @@ import { Service } from "typedi";
 
 @Service()
 export class UserService {
-
-
   @createUserOrder
   async create(data: CreateUserDTO) {
     const user = await this.checkEmailExist(data.email);
@@ -34,5 +32,9 @@ export class UserService {
 
   findAll() {
     return UserModel.find();
+  }
+
+  updateCredit(_id: string, credit: number) {
+    return UserModel.updateOne({ _id }, { $set: { credit } });
   }
 }

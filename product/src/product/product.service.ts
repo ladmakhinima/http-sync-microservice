@@ -2,9 +2,11 @@ import { Service } from "typedi";
 import ProductModel from "./product.model";
 import { CreateProductDTO } from "./dtos";
 import { error } from "../helper/error-creator.helper";
+import { createProductOrder } from "../decorators/create-product-order.decorator";
 
 @Service()
 export class ProductService {
+  @createProductOrder
   async create(data: CreateProductDTO) {
     const product = await this.checkExistByTitle(data.title);
     if (product) {
@@ -25,5 +27,9 @@ export class ProductService {
 
   findAll() {
     return ProductModel.find().lean();
+  }
+
+  updateQuantity(_id: string, quantity: number) {
+    return ProductModel.updateOne({ _id }, { $set: { quantity } });
   }
 }

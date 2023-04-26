@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,7 +51,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductService = void 0;
 var typedi_1 = require("typedi");
 var product_model_1 = __importDefault(require("./product.model"));
+var dtos_1 = require("./dtos");
 var error_creator_helper_1 = require("../helper/error-creator.helper");
+var create_product_order_decorator_1 = require("../decorators/create-product-order.decorator");
 var ProductService = exports.ProductService = /** @class */ (function () {
     function ProductService() {
     }
@@ -89,6 +94,12 @@ var ProductService = exports.ProductService = /** @class */ (function () {
     ProductService.prototype.findAll = function () {
         return product_model_1.default.find().lean();
     };
+    __decorate([
+        create_product_order_decorator_1.createProductOrder,
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [dtos_1.CreateProductDTO]),
+        __metadata("design:returntype", Promise)
+    ], ProductService.prototype, "create", null);
     ProductService = __decorate([
         (0, typedi_1.Service)()
     ], ProductService);
